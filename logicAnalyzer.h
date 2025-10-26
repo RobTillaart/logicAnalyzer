@@ -35,7 +35,7 @@ public:
 
   bool configPins(uint8_t pins[], uint8_t channels);
   bool configClock(uint8_t clockPin);
-  uint8_t setChannels(uint8_t channels);  //  for inject.
+  void setChannels(uint8_t channels);  //  for inject.
   uint8_t getChannels();
 
 

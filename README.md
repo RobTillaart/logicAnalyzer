@@ -18,7 +18,7 @@ Arduino library for building a logicAnalyzer. (non performant).
 
 **Experimental**
 
-This library is to create a logicAnalyzer (LA). 
+This library is to create a logicAnalyzer, although a non performant one. 
 
 The library was written after a question on the Arduino forum and the OP did not
 have a logic analyser or scope. 
@@ -35,7 +35,7 @@ analyse (slow) communication. An ESP32 or other fast board is recommended.
 The library has a few examples how the library can be used to make a dedicated
 logic analyzer.
 
-The library can monitor up to 32 data pins, although performance drops liniearly with the
+The library can monitor up to 32 data pins, although performance drops linearly with the
 number of channels monitored.
 An important functionality of the library is to define a clock pin which can be monitored
 separately. Several functions evaluate the state or change of that pin, so one will

@@ -147,13 +147,16 @@ while (LA.clockLOW())
   LA.sample();
   LA.plot();
 }
-
 ```
 
 Note: The clock functions do not log a timestamp but the user might do so.
 
+Note: the clockPin can be (ab)used to trigger the start of measurements.
+
 
 ### Count
+
+Just to get the amount of samples made since the start.
 
 - **void setCount(uint32_t count = 0)** reset the sample counter, default to zero.
 - **uint32_t getCount()** get the sample counter since last reset / start.
@@ -171,38 +174,38 @@ Note: The clock functions do not log a timestamp but the user might do so.
 
 - AVR performance
   - optimize performance by using registers for IO.(see fastShiftIn library)
-- add clockChanged() in configClock()?
-- investigate internal buffer with 
-  - RunLengthCompression  RLC = { (nr, data), ... } 
-  - TimeLengthCompression TLC = { (time, data), ... }  better?
-  - createBuffer(size), writeBuffer(value), readBuffer(index) (mini class)
+    how much gain will there be?
 
 #### Could
 
-- reduce max channel to 16?
+- reduce max channel to 16? why? performance?
 - examples 
-  - sample to RAM and dump buffer later.
   - use Serial plotter to view and scroll through the buffer.
   - decoding communication, start with combining 8 bits (PAR and SER)
   - detector for signals
 - ideas
-  - RAM = circular buffer, store uint8_t for up to 8 channels.
-  - sample with timestamp, as intermediate values can be considered the same. 
   - store 8 samples of a 1 channel LA in a byte => 1000 bytes == 8000 samples.
     - channel to bytes... decoding.
-  - add trigger pin to start the sampling / storing
+    - need clockPin or defined baud rate.
   - investigate external storage in FRAM (SPI).
   - use HW SPI to export the samples to a second (faster) processor / PC
   - add analog sampling too?
   - pulse to timestamp device (when do the pulses come).
-  - heartbeat LED? (costs performance).
 - add functionality
-  - **uint32_t samplePlot()**  //  slightly optimized
-  - **void plotHeader()**/
-  - **uint32_t getSPS()**  //  = counter / time
+  - **uint32_t samplePlot()**  //  slightly optimized?
+  - **void plotHeader()** ?
+  
 
-#### Wont
+#### Wont (for now)
 
+- **uint32_t getSPS()** = counter / time (no time measured in the lib)
+- add clockChanged() in configClock()?
+  - user must call clockChanged once to get initial value. NB there can be time
+    between configClock() and start of measurements.
+- heartbeat LED? (costs performance).
+- add trigger pin to start the sampling / storing
+  - clockPin can be used for that?
+  
 
 ## Support
 

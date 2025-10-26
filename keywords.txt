@@ -11,7 +11,6 @@ configClock	KEYWORD2
 setChannels	KEYWORD2
 getChannels	KEYWORD2
 
-# samplePlot	KEYWORD2
 sample	KEYWORD2
 inject	KEYWORD2
 plot	KEYWORD2

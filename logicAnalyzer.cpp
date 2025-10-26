@@ -105,7 +105,7 @@ bool logicAnalyzer::clockLOW()
 //  SAMPLE and PLOT
 //
 
-// uint32_t logicAnalyzer::samplePlot()
+// uint32_t logicAnalyzer::samplePlot()  //  all in one.
 // {
   // _count++;
   // uint16_t base = 0;
@@ -132,7 +132,7 @@ uint32_t logicAnalyzer::sample()
   }
   return _data;
 }
-  
+
 void logicAnalyzer::inject(uint32_t data)
 {
   _count++;

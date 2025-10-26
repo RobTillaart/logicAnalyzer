@@ -43,12 +43,10 @@ public:
   //
   //  SAMPLE and PLOT
   //
-  //  uint32_t samplePlot();  //  slightly optimized
   uint32_t sample();
   void inject(uint32_t data);
   void plot();
   void plotRaw();
-  //  void plotHeader();
 
 
   ///////////////////////////////////////
@@ -66,10 +64,9 @@ public:
   //
   //  COUNT
   //
+  //  if user measures time, the SPS can be calculated.
   void setCount(uint32_t count = 0);
   uint32_t getCount();
-  //  uint32_t getSPS();  //  = count / time
-
 
 
 private:
@@ -88,9 +85,6 @@ private:
     return digitalRead(pin);
   }
 
-
-  //  SPS iso count?
-  //  clockPin
 };
 
 

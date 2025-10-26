@@ -22,12 +22,13 @@ logicAnalyzer::logicAnalyzer(Stream * str)
   _count = 0;
 }
 
-bool logicAnalyzer::configPins(uint8_t pins[], uint8_t channels)
+bool logicAnalyzer::configPins(uint8_t pins[], uint8_t size)
 {
-  if (channels > LA_MAX_CHANNEL) return false;
+  if (size > LA_MAX_CHANNEL) return false;
+  if (size == 0) return false;
 
-  _channels = channels;
-  for (int i = 0 ; i < _channels; i++)
+  _channels = _size = size;
+  for (int i = 0 ; i < _size; i++)
   {
     pinMode(pins[i], INPUT);
     _dataPins[i] = pins[i];
@@ -42,9 +43,12 @@ bool logicAnalyzer::configClock(uint8_t clockPin)
   return true;
 }
 
-void logicAnalyzer::setChannels(uint8_t channels)
+bool logicAnalyzer::setChannels(uint8_t channels)
 {
+  if (channels > LA_MAX_CHANNEL) return false;
+  if (channels == 0) return false;
   _channels = channels;
+  return true;
 }
 
 uint8_t logicAnalyzer::getChannels()
@@ -121,15 +125,14 @@ uint32_t logicAnalyzer::sample()
 {
   _count++;
   _data = 0;
-  for (int i = 0 ; i < _channels; i++)
+  for (int i = 0 ; i < _size; i++)
   {
     _data <<= 1;
     _data |= _read(_dataPins[i]);
   }
   return _data;
 }
-
-
+  
 void logicAnalyzer::inject(uint32_t data)
 {
   _count++;
@@ -138,8 +141,8 @@ void logicAnalyzer::inject(uint32_t data)
 
 void logicAnalyzer::plot()
 {
-  uint32_t mask = 1 << (_channels - 1);
-  uint16_t base = 0;
+  uint32_t mask = 1UL << (_channels - 1);
+  uint32_t base = 0;
   while (mask)
   {
     _stream->print((_data & mask) ? base + PULSE_HEIGHT : base);

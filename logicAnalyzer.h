@@ -15,8 +15,8 @@
 
 #define LOGICANALYZER_LIB_VERSION         (F("0.1.0"))
 
-//  board dependent but 16 seems OK for now.
-#define LA_MAX_CHANNEL                    (16)
+//  board dependent but 32 seems OK for now.
+#define LA_MAX_CHANNEL                    (32)
 
 
 //  ERROR CODES
@@ -35,7 +35,7 @@ public:
 
   bool configPins(uint8_t pins[], uint8_t channels);
   bool configClock(uint8_t clockPin);
-  void setChannels(uint8_t channels);  //  for inject.
+  bool setChannels(uint8_t channels);  //  for inject.
   uint8_t getChannels();
 
 
@@ -74,6 +74,7 @@ public:
 
 private:
   Stream * _stream;
+  uint8_t  _size = 0;
   uint8_t  _channels = 0;
   uint8_t  _dataPins[LA_MAX_CHANNEL];
   uint8_t  _clockPin = 255;

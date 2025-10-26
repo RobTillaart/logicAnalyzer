@@ -73,6 +73,8 @@ Result is the number of samples in ~10 seconds, is about maximum feasible in
 
 s + p == sample + plot == live view on serial plotter.
 
+The maximum number of channels is hardcoded to 32 due to internal storage.
+
 
 #### Conclusions on 0.1.0 version
 
@@ -103,9 +105,12 @@ In short, it is worth to elaborate in the future when needed and time permits.
 ### Constructor
 
 - **logicAnalyzer(Stream \* str = &Serial)** set the serial port to "dump" data.
-- **bool configPins(uint8_t pins[], uint8_t channels)** define the array of data pins that 
-are used for sampling.
-- **void setChannels(uint8_t channels)** return the number of channels (size of pin array above).
+- **bool configPins(uint8_t pins[], uint8_t size)** define the array of data 
+pins that must be used for the sample() function. 
+Channels = 1..32, the function returns false if channels is out of range.
+- **void setChannels(uint8_t channels)** set the number of channels for the output. 
+Mandatory for the inject() function. 
+Channels = 1..32, the function returns false if channels is out of range.
 - **uint8_t getChannels()** return the number of channels (size of pin array above).
 
 
@@ -117,6 +122,9 @@ in one uint32_t variable. This value is returned but also kept internally.
 - **void plot()** plots the latest internal value for the serial plotter, with a
 defined offset per channel. Value can be patched in the logicAnalyzer.cpp file
 - **void plotRaw()** plot the latest internal value as 0 and 1
+
+Note one can mix sample() and inject(), the data pins will always be in the lower channels
+and one can add / inject some higher bits. See example.
 
 
 ### Clock
@@ -156,7 +164,8 @@ Note: The clock functions do not log a timestamp but the user might do so.
 #### Must
 
 - improve documentation
-
+- rename channels / size to be more logical.
+  - dataChannels, injectChannels
 
 #### Should
 
@@ -166,9 +175,11 @@ Note: The clock functions do not log a timestamp but the user might do so.
 - investigate internal buffer with 
   - RunLengthCompression  RLC = { (nr, data), ... } 
   - TimeLengthCompression TLC = { (time, data), ... }  better?
+  - createBuffer(size), writeBuffer(value), readBuffer(index) (mini class)
 
 #### Could
 
+- reduce max channel to 16?
 - examples 
   - sample to RAM and dump buffer later.
   - use Serial plotter to view and scroll through the buffer.
